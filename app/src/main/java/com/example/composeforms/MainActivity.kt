@@ -37,9 +37,24 @@ class MainActivity : ComponentActivity() {
             // A surface container using the 'background' color from the theme
             Surface(color = MaterialTheme.colors.background) {
                 Column {
-                    TextInputForm(state.firstName, "First Name") {viewModel.updateFirstName(it)}
-                    TextInputForm(state.lastName, "Last Name") {viewModel.updateLastName(it)}
-                    TextInputForm(state.dob, "Day of Birth") {viewModel.updateDOB(it)}
+                    TextInputForm(
+                        input = state.firstName,
+                        title = "First Name",
+                        validateInput = {viewModel.validateFirstName(it)},
+                        onInputChanged = {viewModel.updateFirstName(it)}
+                        )
+                    TextInputForm(
+                        input = state.lastName,
+                        title = "Last Name",
+                        validateInput = {viewModel.validateFirstName(it)},
+                        onInputChanged = {viewModel.updateLastName(it)}
+                    )
+                    TextInputForm(
+                        input = state.dob,
+                        title = "Day of Birth",
+                        validateInput = {viewModel.validateFirstName(it)},
+                        onInputChanged = {viewModel.updateDOB(it)}
+                    )
                     Button(onClick = { viewModel.saveUser() }){
                         Text("Save")
                     }

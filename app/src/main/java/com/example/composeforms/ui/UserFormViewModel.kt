@@ -2,6 +2,7 @@ package com.example.composeforms.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.composeforms.ui.provider.FirstNameValidatorProvider
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -9,6 +10,11 @@ import kotlinx.coroutines.launch
 class UserFormViewModel: ViewModel() {
     private val mutableUser = MutableStateFlow(User("", "", ""))
     val user: StateFlow<User> = mutableUser
+
+    fun validateFirstName(input: String) : String{
+        val validator = FirstNameValidatorProvider().provideFormValidator()
+        return validator.applyRules(input)
+    }
 
     fun updateFirstName(firstName: String){
         val user = mutableUser.value

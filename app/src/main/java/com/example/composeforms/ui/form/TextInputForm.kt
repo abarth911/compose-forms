@@ -12,18 +12,18 @@ import androidx.compose.ui.unit.dp
 import com.example.composeforms.ui.theme.ComposeFormsTheme
 
 @Composable
-fun TextInputForm(input: String, title: String, onInputChanged: (String) -> Unit) {
-    var error by remember { mutableStateOf(false) }
+fun TextInputForm(input: String, title: String, validateInput: (String) -> String, onInputChanged: (String) -> Unit) {
+    var error by remember { mutableStateOf("") }
     Column(
         modifier = Modifier.padding(16.dp)
     ) {
         TextField(value = input,
             onValueChange = {
-                error = it.isBlank()
+                error = validateInput.invoke(it)
                 onInputChanged.invoke(it)},
             label = { Text(title) })
-        if(error){
-            Text(text = "Something is wrong", color = Color.Red)
+        if(error.isNotBlank()){
+            Text(text = error, color = Color.Red)
         }
     }
 }
@@ -32,6 +32,6 @@ fun TextInputForm(input: String, title: String, onInputChanged: (String) -> Unit
 @Composable
 fun DefaultPreview() {
     ComposeFormsTheme() {
-        TextInputForm("Alex", "First Name") {}
+        TextInputForm("Alex", "First Name", {"Error"}) {}
     }
 }
